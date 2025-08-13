@@ -1,0 +1,41 @@
+@startuml
+
+abstract class ElementoSistema {
+    - nombre: str
+    - tamano: int
+    + get_nombre(): str
+    + set_nombre(nombre: str)
+    + get_tamano(): int
+    + set_tamano(tamano: int)
+    + es_directorio(): bool
+    + get_ficheros(): List[ElementoSistema]
+}
+
+class Archivo {
+    + es_directorio(): bool
+    + get_ficheros()
+}
+
+class Carpeta {
+    - elementos: List[ElementoSistema]
+    + agregar_elemento(elemento: ElementoSistema)
+    + es_directorio(): bool
+    + get_ficheros(): List[ElementoSistema]
+}
+
+class SistemaOperativo {
+    - carpeta1: Carpeta
+    - carpeta2: Carpeta
+    - carpeta3: Carpeta
+    - tamano_total: int
+    + load()
+    + calcular_tamano_total(elemento_sistema: ElementoSistema)
+    + pintar_arbol(elemento_sistema: ElementoSistema)
+}
+
+ElementoSistema <|-- Archivo
+ElementoSistema <|-- Carpeta
+SistemaOperativo --> Carpeta
+Carpeta "1" o-- "*" ElementoSistema
+
+@enduml
