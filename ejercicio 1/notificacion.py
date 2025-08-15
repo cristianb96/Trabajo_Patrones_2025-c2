@@ -1,7 +1,7 @@
 import logging
 from abc import ABC, abstractmethod
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Dict, List
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -15,7 +15,7 @@ class CanalNotificacion(Enum):
 
 class MensajeNotificacion:
     def __init__(self, destinatario: str, asunto: str, contenido: str, 
-                 canales: List[CanalNotificacion], metadata: Dict[str, Any] = None):
+                 canales: List[CanalNotificacion], metadata: dict = None):
         self.destinatario = destinatario
         self.asunto = asunto
         self.contenido = contenido
