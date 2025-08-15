@@ -1,0 +1,80 @@
+classDiagram
+    %% Definición de tipos
+    class Task {
+        <<TypedDict>>
+        id: int
+        title: str
+        description: str
+        status: str
+        created_at: str
+    }
+
+    %% Protocolo/Interfaz
+    class Command {
+        <<Protocol>>
+        +execute() str
+        +undo() str
+    }
+
+    %% Receiver
+    class TaskSystem {
+        -tasks: Dict~int, Task~
+        -next_id: int
+        +create_task(title: str, description: str) int
+        +delete_task(task_id: int)
+        +complete_task(task_id: int)
+        +get_task_status(task_id: int) Optional~str~
+        +update_task_status(task_id: int, status: str)
+        +get_task(task_id: int) Optional~Task~
+    }
+
+    %% Invoker
+    class TaskManager {
+        -task_system: TaskSystem
+        -history: List~Command~
+        -undo_history: List~Command~
+        +execute_command(command: Command) str
+        +undo() str
+        +redo() str
+    }
+
+    %% Comandos Concretos
+    class CreateTaskCommand {
+        -task_system: TaskSystem
+        -title: str
+        -description: str
+        -task_id: Optional~int~
+        +execute() str
+        +undo() str
+    }
+
+    class CompleteTaskCommand {
+        -task_system: TaskSystem
+        -task_id: int
+        -previous_status: Optional~str~
+        +execute() str
+        +undo() str
+    }
+
+    class EditTaskCommand {
+        -task_system: TaskSystem
+        -task_id: int
+        -new_title: str
+        -new_description: str
+        -old_title: Optional~str~
+        -old_description: Optional~str~
+        +execute() str
+        +undo() str
+    }
+
+    %% Relaciones
+    TaskManager --> TaskSystem: Usa
+    TaskManager o--> Command: Gestiona
+    
+    Command <|-- CreateTaskCommand
+    Command <|-- CompleteTaskCommand
+    Command <|-- EditTaskCommand
+
+    CreateTaskCommand --> TaskSystem: Modifica
+    CompleteTaskCommand --> TaskSystem: Consulta/Modifica
+    EditTaskCommand --> TaskSystem: Consulta/Modifica
