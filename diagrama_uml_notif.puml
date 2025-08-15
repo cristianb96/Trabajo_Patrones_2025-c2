@@ -1,0 +1,89 @@
+@startuml Sistema de Notificaciones
+!theme plain
+skinparam backgroundColor white
+skinparam classBackgroundColor white
+skinparam classBorderColor black
+skinparam classFontColor black
+skinparam enumBackgroundColor white
+skinparam enumBorderColor black
+skinparam enumFontColor black
+
+enum CanalNotificacion {
+  EMAIL
+  SMS
+  WHATSAPP
+  SLACK
+  TELEGRAM
+}
+
+class MensajeNotificacion {
+  - destinatario: str
+  - asunto: str
+  - contenido: str
+  - canales: List[CanalNotificacion]
+  - metadata: Dict[str, Any]
+  + __init__(destinatario, asunto, contenido, canales, metadata)
+  + __str__(): str
+}
+
+abstract class NotificadorCanal {
+  + {abstract} enviar(mensaje: MensajeNotificacion): bool
+  + {abstract} get_canal(): CanalNotificacion
+}
+
+class Email {
+  + enviar(mensaje: MensajeNotificacion): bool
+  + get_canal(): CanalNotificacion
+}
+
+class SMS {
+  + enviar(mensaje: MensajeNotificacion): bool
+  + get_canal(): CanalNotificacion
+}
+
+class WhatsApp {
+  + enviar(mensaje: MensajeNotificacion): bool
+  + get_canal(): CanalNotificacion
+}
+
+class Slack {
+  + enviar(mensaje: MensajeNotificacion): bool
+  + get_canal(): CanalNotificacion
+}
+
+class Telegram {
+  + enviar(mensaje: MensajeNotificacion): bool
+  + get_canal(): CanalNotificacion
+}
+
+class Notificadores {
+  - notificadores: Dict[CanalNotificacion, NotificadorCanal]
+  + __init__()
+  - _registrar_canales_default()
+  + registrar_canal(notificador: NotificadorCanal)
+  + quitar_canal(canal: CanalNotificacion)
+  + get_notificador(canal: CanalNotificacion): NotificadorCanal
+  + get_canales_disponibles(): List[CanalNotificacion]
+}
+
+class ServicioNotificaciones {
+  - fabrica: Notificadores
+  + __init__()
+  + enviar_notificacion(mensaje: MensajeNotificacion): bool
+  + registrar_nuevo_canal(notificador: NotificadorCanal)
+  + quitar_canal(canal: CanalNotificacion)
+  + get_canales_disponibles(): List[CanalNotificacion]
+}
+
+NotificadorCanal <|-- Email
+NotificadorCanal <|-- SMS
+NotificadorCanal <|-- WhatsApp
+NotificadorCanal <|-- Slack
+NotificadorCanal <|-- Telegram
+
+ServicioNotificaciones --> Notificadores : usa
+Notificadores --> NotificadorCanal : gestiona
+MensajeNotificacion --> CanalNotificacion : contiene
+ServicioNotificaciones --> MensajeNotificacion : procesa
+
+@enduml 
