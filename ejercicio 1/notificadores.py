@@ -1,8 +1,9 @@
 import logging
 from typing import Dict, List
 
-from base import CanalNotificacion, NotificadorCanal
+from base import NotificadorCanal
 from canales import SMS, Email, Slack, Telegram, WhatsApp
+from tipos import CanalNotificacion
 
 logger = logging.getLogger(__name__)
 

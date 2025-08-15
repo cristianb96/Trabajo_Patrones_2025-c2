@@ -1,6 +1,6 @@
 from typing import List
 
-from base import CanalNotificacion
+from tipos import CanalNotificacion
 
 
 class MensajeNotificacion:

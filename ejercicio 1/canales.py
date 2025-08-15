@@ -1,7 +1,8 @@
 import logging
 
-from base import CanalNotificacion, NotificadorCanal
+from base import NotificadorCanal
 from mensaje import MensajeNotificacion
+from tipos import CanalNotificacion
 
 logger = logging.getLogger(__name__)
 
