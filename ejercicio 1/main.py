@@ -1,5 +1,9 @@
-import logging
 
+"""
+Se uso strategy y factory como patrones. Tambien al colocar logger, se consideria como observer tambien.
+"""
+
+import logging
 from mensaje import MensajeNotificacion
 from servicio import ServicioNotificaciones
 from tipos import CanalNotificacion
