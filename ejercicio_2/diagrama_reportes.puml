@@ -1,0 +1,40 @@
+@startuml Reportes Personalizados
+class Director {
+    - _builder: Builder
+    + builder(): Builder
+    + reporte_minimo(cliente, logotipo, asesor): void
+    + reporte_analisis_condicionado(cliente, logotipo, asesor, tendencias): void
+    + reporte_completo_condicionado(cliente, logotipo, asesor, tendencias): void
+}
+
+abstract class Builder {
+    + reset(): void
+    + reporte(): void
+    + añadir_portada(cliente, logotipo): void
+    + añadir_graficos(cliente): void
+    + añadir_tabla_movimientos(cliente): void
+    + añadir_analisis_tendencias(tendencias): void
+    + añadir_pie_de_pagina(asesor): void
+}
+
+class BuilderPDF {
+    - _reporte: Reporte
+    + reset(): void
+    + reporte(): void
+    + añadir_portada(cliente, logotipo): void
+    + añadir_graficos(cliente): void
+    + añadir_tabla_movimientos(cliente): void
+    + añadir_analisis_tendencias(tendencias): void
+    + añadir_pie_de_pagina(asesor): void
+    + get_reporte(): void
+}
+
+class Reporte {
+    - parts: list
+    + añadir(part: void): void
+}
+
+Director --> Builder
+Builder <|-- BuilderPDF
+BuilderPDF --> Reporte
+@enduml
